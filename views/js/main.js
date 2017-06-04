@@ -523,6 +523,8 @@ function updatePositions() {
   var items = document.querySelectorAll('.mover');
   for (var i = 0; i < items.length; i++) {
     var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
+    // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    // 用transform代替left避免强制同步布局
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
@@ -543,7 +545,7 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
+  for (var i = 0; i < 100; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
@@ -551,6 +553,7 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
+    elem.style['will-change'] = "transform"; // 增加will-change属性避免图层重绘
     document.querySelector("#movingPizzas1").appendChild(elem);
   }
   updatePositions();
